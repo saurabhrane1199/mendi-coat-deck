@@ -2,7 +2,6 @@ package mendicoat_deck
 
 import (
 	"math/rand"
-	"sort"
 	"strings"
 )
 
@@ -61,29 +60,7 @@ func (d Deck) String() string {
 	for _, c := range d.Cards {
 		g = append(g, c.VerboseName)
 	}
-	return strings.Join(g, " ")
-}
-
-func (dest *Deck) validateAndRemoveExcessCards(numOfPlayers int) {
-
-	if numOfPlayers < 4 || numOfPlayers%2 == 1 {
-		panic("Invalid number of players: must be at least 4 and an even number")
-	}
-
-	cards := dest.Cards
-	excess := len(cards) % numOfPlayers
-	if excess == 0 {
-		return
-	}
-
-	sort.Slice(cards, func(i, j int) bool {
-		return cards[i].Value < cards[j].Value
-	})
-
-	dest.Cards = append(cards[:4], cards[4+excess:]...)
-	dest.Shuffle()
-	return
-
+	return strings.Join(g, "\n")
 }
 
 func Deal(src *Deck, numOfPlayers int) []Deck {
@@ -114,8 +91,18 @@ func Deal(src *Deck, numOfPlayers int) []Deck {
 
 }
 
-func main() {
-	playingDeck := NewDeck(true)
-	print(playingDeck.String())
+func DeclareWinner(playedCards map[string]Card, currentSuite string) string {
+	leadPlayer := ""
+	var leadCard *Card
+	//{player : cardname}
+	for player, card := range playedCards {
+		if string(card.Suit) == currentSuite {
+			if isCurrentCardHigher(card, *leadCard) {
+				leadCard = &card
+				leadPlayer = player
+			}
+		}
+	}
 
+	return leadPlayer
 }
