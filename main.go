@@ -100,9 +100,8 @@ func Deal(src *Deck, numOfPlayers int) []Deck {
 
 	var hands []Deck
 	hands = make([]Deck, numOfPlayers)
-	src.Shuffle()
 	src.validateAndRemoveExcessCards(numOfPlayers)
-
+	src.Shuffle()
 	handSize := len(src.Cards) / numOfPlayers
 
 	for i := 0; i < handSize; i++ {
