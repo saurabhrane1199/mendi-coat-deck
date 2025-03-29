@@ -94,10 +94,11 @@ func Deal(src *Deck, numOfPlayers int) []Deck {
 func DeclareWinner(playedCards map[string]Card, currentSuite string) string {
 	leadPlayer := ""
 	var leadCard *Card
-	//{player : cardname}
+
 	for player, card := range playedCards {
 		if string(card.Suit) == currentSuite {
-			if isCurrentCardHigher(card, *leadCard) {
+			// If leadCard is nil, set it to the first matching card
+			if leadCard == nil || isCurrentCardHigher(card, *leadCard) {
 				leadCard = &card
 				leadPlayer = player
 			}

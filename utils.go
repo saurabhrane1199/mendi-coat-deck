@@ -30,15 +30,5 @@ func (dest *Deck) validateAndRemoveExcessCards(numOfPlayers int) {
 }
 
 func isCurrentCardHigher(currentCard Card, leadingCard Card) bool {
-
-	if leadingCard.Face == "" {
-		return true
-	}
-
-	if strings.Index(rankOrder, currentCard.Face) < strings.Index(rankOrder, leadingCard.Face) {
-		return false
-	} else {
-		return true
-	}
-
+	return strings.Index(rankOrder, currentCard.Face) > strings.Index(rankOrder, leadingCard.Face)
 }
